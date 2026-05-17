@@ -31,23 +31,100 @@ st.markdown("""
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Space+Mono&display=swap');
 
+  /* ── Global font ── */
   html, body, [class*="css"] { font-family: 'Sora', sans-serif; }
 
-  /* ── Main background ── */
-  .stApp { background: #F0F6F8; }
+  /* ── Main background: clean white ── */
+  .stApp { background: #FFFFFF; }
+
+  /* ════════════════════════════════════════════════════
+     FORCE BLACK TEXT ON ALL NATIVE STREAMLIT WIDGETS
+     covers: labels, inputs, text areas, radio buttons,
+     selectboxes, file uploaders, tabs, expanders, captions
+  ════════════════════════════════════════════════════ */
+  .stApp p,
+  .stApp label,
+  .stApp span,
+  .stApp div,
+  .stApp li,
+  .stApp .stMarkdown,
+  .stApp .stText,
+  .stApp .stCaption,
+  [data-testid="stMarkdownContainer"] p,
+  [data-testid="stMarkdownContainer"] li,
+  [data-testid="stMarkdownContainer"] span { color: #111111 !important; }
+
+  /* Text inputs and text areas */
+  .stTextArea textarea,
+  .stTextInput input {
+    color: #111111 !important;
+    background-color: #F8F9FA !important;
+    border: 1.5px solid #CBD5E1 !important;
+    font-size: 14px !important;
+  }
+  .stTextArea textarea::placeholder,
+  .stTextInput input::placeholder { color: #6B7280 !important; }
+
+  /* Labels above inputs */
+  .stTextArea label,
+  .stTextInput label,
+  .stFileUploader label,
+  .stSelectbox label,
+  .stRadio label,
+  .stRadio div[role="radiogroup"] label { color: #111111 !important; font-weight: 600 !important; }
+
+  /* Radio button text */
+  .stRadio div[role="radiogroup"] p { color: #111111 !important; }
+
+  /* Selectbox text */
+  .stSelectbox div[data-baseweb="select"] span { color: #111111 !important; }
+
+  /* File uploader */
+  [data-testid="stFileUploader"] { color: #111111 !important; }
+  [data-testid="stFileUploader"] span,
+  [data-testid="stFileUploader"] p,
+  [data-testid="stFileUploader"] small { color: #111111 !important; }
+  [data-testid="stFileUploaderDropzoneInstructions"] { color: #111111 !important; }
+  [data-testid="stFileUploaderDropzoneInstructions"] span { color: #111111 !important; }
+
+  /* Tabs */
+  .stTabs [data-baseweb="tab"] { color: #111111 !important; font-weight: 600; }
+  .stTabs [data-baseweb="tab"][aria-selected="true"] { color: #0E7C86 !important; border-bottom: 3px solid #0E7C86; }
+
+  /* Expanders */
+  .streamlit-expanderHeader { color: #111111 !important; font-weight: 600 !important; }
+  .streamlit-expanderContent p,
+  .streamlit-expanderContent span,
+  .streamlit-expanderContent li { color: #111111 !important; }
+
+  /* Captions */
+  .stCaption, [data-testid="stCaptionContainer"] { color: #444444 !important; }
+
+  /* Spinner text */
+  .stSpinner p { color: #111111 !important; }
+
+  /* Download button */
+  .stDownloadButton button { color: #FFFFFF !important; background: #0E7C86 !important; border: none !important; }
+  .stDownloadButton button:hover { background: #1A3C5E !important; }
+
+  /* Primary button */
+  .stButton button[kind="primary"] { color: #FFFFFF !important; background: #0E7C86 !important; border: none !important; }
+  .stButton button[kind="primary"]:hover { background: #1A3C5E !important; }
 
   /* ── Sidebar ── */
-  section[data-testid="stSidebar"] {
-    background: #1A3C5E !important;
-  }
+  section[data-testid="stSidebar"] { background: #1A3C5E !important; }
   section[data-testid="stSidebar"] * { color: #E0EEF4 !important; }
+  section[data-testid="stSidebar"] label,
+  section[data-testid="stSidebar"] p,
+  section[data-testid="stSidebar"] span { color: #E0EEF4 !important; }
   section[data-testid="stSidebar"] .stSelectbox label,
-  section[data-testid="stSidebar"] .stRadio label { color: #7EC8CE !important; font-weight: 600; }
+  section[data-testid="stSidebar"] .stRadio label { color: #7EC8CE !important; font-weight: 600 !important; }
+  section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] p { color: #E0EEF4 !important; }
 
-  /* ── Risk badge colours ── */
-  .badge-low    { background:#D1FAE5; color:#065F46; border:1.5px solid #059669; }
-  .badge-medium { background:#FEF3C7; color:#92400E; border:1.5px solid #D97706; }
-  .badge-high   { background:#FEE2E2; color:#991B1B; border:1.5px solid #DC2626; }
+  /* ── Risk badges ── */
+  .badge-low    { background:#D1FAE5; color:#065F46 !important; border:1.5px solid #059669; }
+  .badge-medium { background:#FEF3C7; color:#92400E !important; border:1.5px solid #D97706; }
+  .badge-high   { background:#FEE2E2; color:#991B1B !important; border:1.5px solid #DC2626; }
   .badge {
     display:inline-block; padding:3px 12px; border-radius:20px;
     font-size:13px; font-weight:700; font-family:'Space Mono', monospace;
@@ -55,81 +132,50 @@ st.markdown("""
 
   /* ── Cards ── */
   .ethosai-card {
-    background: #FFFFFF;
-    border-radius: 12px;
-    padding: 22px 24px;
-    margin-bottom: 14px;
-    border-left: 5px solid #0E7C86;
+    background: #FFFFFF; border-radius: 12px; padding: 22px 24px;
+    margin-bottom: 14px; border-left: 5px solid #0E7C86;
     box-shadow: 0 2px 12px rgba(14,124,134,0.08);
   }
-  .ethosai-card h4 { margin:0 0 6px 0; color:#1A3C5E; font-size:15px; }
-  .ethosai-card p  { margin:0; color:#475569; font-size:13.5px; line-height:1.6; }
-
+  .ethosai-card h4 { margin:0 0 6px 0; color:#1A3C5E !important; font-size:15px; }
+  .ethosai-card p  { margin:0; color:#111111 !important; font-size:13.5px; line-height:1.6; }
   .card-high   { border-left-color: #DC2626; }
   .card-medium { border-left-color: #D97706; }
   .card-low    { border-left-color: #059669; }
 
-  /* ── Highlighted evidence spans ── */
+  /* ── Evidence highlights ── */
   .evidence-phrase {
-    background: #FEF08A;
-    border-bottom: 2px solid #EAB308;
-    border-radius: 3px;
-    padding: 1px 3px;
-    font-weight: 600;
+    background: #FEF08A; border-bottom: 2px solid #EAB308;
+    border-radius: 3px; padding: 1px 4px; font-weight: 700; color: #1A1A00 !important;
   }
   .evidence-phrase-red {
-    background: #FEE2E2;
-    border-bottom: 2px solid #DC2626;
-    border-radius: 3px;
-    padding: 1px 3px;
-    font-weight: 600;
+    background: #FEE2E2; border-bottom: 2px solid #DC2626;
+    border-radius: 3px; padding: 1px 4px; font-weight: 700; color: #3B0000 !important;
   }
 
-  /* ── Section headers ── */
+  /* ── Section labels ── */
   .section-label {
     font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
-    color: #0E7C86; text-transform: uppercase; margin-bottom: 10px;
+    color: #0E7C86 !important; text-transform: uppercase; margin-bottom: 10px;
   }
 
-  /* ── Score meter ── */
+  /* ── Score bar track ── */
   .score-bar-wrap { background:#E2E8F0; border-radius:8px; height:10px; margin-top:6px; }
-  .score-bar { height:10px; border-radius:8px; transition: width 0.6s ease; }
+  .score-bar { height:10px; border-radius:8px; }
 
-  /* ── Title hero ── */
+  /* ── Hero block ── */
   .hero-block {
     background: linear-gradient(135deg, #1A3C5E 0%, #0E7C86 100%);
-    border-radius: 16px;
-    padding: 36px 40px;
-    margin-bottom: 28px;
-    color: white;
+    border-radius: 16px; padding: 36px 40px; margin-bottom: 28px;
   }
-  .hero-block h1 { font-size:38px; font-weight:700; margin:0 0 6px 0; color:white; }
-  .hero-block p  { font-size:15px; color:#C8EBF0; margin:0; }
-
-  /* ── Report export block ── */
-  .report-block {
-    background: #1A3C5E;
-    color: white;
-    border-radius: 12px;
-    padding: 20px 24px;
-  }
-  .report-block h3 { color: #7EC8CE; margin-bottom:8px; }
-  .report-block p  { color: #C8EBF0; font-size:13px; }
-
-  /* ── Comparison mode ── */
-  .compare-col {
-    background: white;
-    border-radius: 10px;
-    padding: 18px;
-    border: 1.5px solid #CBD5E1;
-  }
+  .hero-block h1 { font-size:38px; font-weight:700; margin:0 0 6px 0; color:#FFFFFF !important; }
+  .hero-block p  { font-size:15px; color:#C8EBF0 !important; margin:0; }
 
   /* ── Footer ── */
   .footer-bar {
-    text-align: center; color: #1A3C5E; font-size: 12px;
+    text-align: center; color: #1A3C5E !important; font-size: 12px;
     padding: 20px 0 10px 0; border-top: 2px solid #0E7C86; margin-top: 40px;
   }
-  .footer-bar small { color: #475569; font-size: 11px; }
+  .footer-bar small { color: #444444 !important; font-size: 11px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -552,7 +598,8 @@ def generate_text_report(text_input, context, bias_r, tox_r, gov_r, sent_r, over
         "  This tool does not access underlying model weights or training data.",
         "  False positives and false negatives are possible.",
         "",
-        "  GitHub:     https://github.com/Rahma-Iro/ethosai/ethosai",
+        "  Live tool:  https://ethosai.streamlit.app",
+        "  GitHub:     https://github.com/Rahma-Iro/ethosai",
         "  Programme:  Africa AI Hub | AISIP Cohort 1",
         "=" * 65,
     ]
@@ -578,6 +625,21 @@ with st.sidebar:
     )
 
     st.markdown("---")
+
+    language = st.selectbox(
+        "🌍 Text Language / Variant",
+        [
+            "English (Standard)",
+            "Nigerian English",
+            "Nigerian Pidgin (Naija)",
+            "Yoruba-English (code-switched)",
+            "Hausa-English (code-switched)",
+            "Igbo-English (code-switched)",
+        ],
+        help="Select the language variant of the text you are submitting. Pidgin and code-switched variants activate extra detection rules."
+    )
+
+    st.markdown("---")
     st.markdown("**About EthosAI**")
     st.markdown(
         "Built for the Africa AI Hub AISIP programme. "
@@ -586,8 +648,8 @@ with st.sidebar:
     )
     st.markdown("""
     <small>
-    🌐 <a href='https://ethosai.streamlit.app' style='color:#7EC8CE'>ethosai.streamlit.app</a><br>
-    💻 <a href='https://github.com/yourusername/ethosai' style='color:#7EC8CE'>github.com/yourusername/ethosai</a>
+    🌐 <a href='https://ethosai-52bdb4gz8v8c37feee8tnv.streamlit.app/' style='color:#7EC8CE'>ethosai.streamlit.app</a><br>
+    💻 <a href='https://github.com/Rahma-Iro/ethosai' style='color:#7EC8CE'>github.com/yourusername/ethosai</a>
     </small>
     """, unsafe_allow_html=True)
     st.markdown("---")
@@ -609,7 +671,7 @@ st.markdown("""
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPER: render one full audit
 # ─────────────────────────────────────────────────────────────────────────────
-def render_audit(text_input, context, col_suffix=""):
+def render_audit(text_input, context, language="English (Standard)", col_suffix=""):
     word_count = len(text_input.split())
     if word_count < 5:
         st.warning("⚠️  Please enter at least a few sentences for meaningful analysis.")
@@ -624,6 +686,20 @@ def render_audit(text_input, context, col_suffix=""):
         tox_r,   tox_ev   = analyze_toxicity(text_input, context)
         gov_r,   gov_ev   = analyze_governance(text_input, context)
         sent_r             = analyze_sentiment_disparity(text_input, context)
+
+        # Language-aware boost: Pidgin/Yoruba/Hausa/Igbo variants get enhanced pidgin detection
+        AFRICAN_VARIANTS = ["Nigerian Pidgin (Naija)", "Yoruba-English (code-switched)",
+                            "Hausa-English (code-switched)", "Igbo-English (code-switched)"]
+        if language in AFRICAN_VARIANTS:
+            # Re-run toxicity with boosted pidgin weight
+            boosted_ctx = context + "__pidgin_boost__"
+            extra_matches = find_matches(text_input, TOXICITY_PATTERNS["pidgin_flags"])
+            if extra_matches:
+                old_score = tox_r["pidgin_flags"]["score"]
+                new_score = min(100, round(old_score * 1.4))
+                tox_r["pidgin_flags"]["score"] = new_score
+                tox_r["pidgin_flags"]["risk"], tox_r["pidgin_flags"]["class"] = risk_label(new_score)
+
         overall            = compute_overall_score(bias_r, tox_r, gov_r, sent_r)
         overall_label, overall_cls = risk_label(overall)
 
@@ -644,7 +720,9 @@ def render_audit(text_input, context, col_suffix=""):
         <div style='background:#1A3C5E;border-radius:12px;padding:20px;border:1px solid #0E4D6B;height:100%'>
           <div style='font-size:13px;color:#7EC8CE;margin-bottom:4px;font-weight:600'>Context</div>
           <div style='font-size:15px;font-weight:700;color:#FFFFFF'>{context}</div>
-          <div style='font-size:13px;color:#7EC8CE;margin-top:12px;margin-bottom:4px;font-weight:600'>Words analyzed</div>
+          <div style='font-size:13px;color:#7EC8CE;margin-top:10px;margin-bottom:4px;font-weight:600'>Language variant</div>
+          <div style='font-size:14px;font-weight:600;color:#FFFFFF'>{language}</div>
+          <div style='font-size:13px;color:#7EC8CE;margin-top:10px;margin-bottom:4px;font-weight:600'>Words analyzed</div>
           <div style='font-size:15px;font-weight:700;color:#FFFFFF'>{word_count:,}</div>
         </div>
         """, unsafe_allow_html=True)
@@ -854,7 +932,7 @@ if mode == "Single Text Audit":
     run_btn = st.button("🔍  Run Ethics Audit", type="primary", use_container_width=True)
 
     if run_btn and text_input.strip():
-        render_audit(text_input.strip(), context)
+        render_audit(text_input.strip(), context, language)
     elif run_btn:
         st.warning("Please enter or upload some text first.")
 
@@ -916,10 +994,10 @@ else:
             ca, cb = st.columns(2)
             with ca:
                 st.markdown("### System A Results")
-                render_audit(text_a.strip(), context, col_suffix="_a")
+                render_audit(text_a.strip(), context, language, col_suffix="_a")
             with cb:
                 st.markdown("### System B Results")
-                render_audit(text_b.strip(), context, col_suffix="_b")
+                render_audit(text_b.strip(), context, language, col_suffix="_b")
         else:
             st.warning("Please enter text for both systems.")
 
