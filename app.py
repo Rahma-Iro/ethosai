@@ -552,8 +552,7 @@ def generate_text_report(text_input, context, bias_r, tox_r, gov_r, sent_r, over
         "  This tool does not access underlying model weights or training data.",
         "  False positives and false negatives are possible.",
         "",
-        "  Live tool:  https://ethosai.streamlit.app",
-        "  GitHub:     https://github.com/yourusername/ethosai",
+        "  GitHub:     https://github.com/Rahma-Iro/ethosai/ethosai",
         "  Programme:  Africa AI Hub | AISIP Cohort 1",
         "=" * 65,
     ]
